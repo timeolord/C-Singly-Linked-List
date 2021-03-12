@@ -3,4 +3,4 @@ project(ArrayList C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(ArrayList main.c)
+add_executable(ArrayList ArrayList.c)
