@@ -12,16 +12,8 @@ typedef struct ArrayList{
     int size;
 } ArrayList;
 
-
 typedef int boolean;
 int true = 1, false = 0;
-
-boolean Array_delete(void** list, int size){
-    for (int i = 0; i < size; i++){
-        free(list[i]);
-    }
-    free(list);
-}
 
 Node* Node_new(Node* next, Node* prev, void* data){
     Node* node = malloc(sizeof(Node));
