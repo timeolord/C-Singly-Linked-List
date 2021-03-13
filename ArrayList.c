@@ -16,6 +16,13 @@ typedef struct ArrayList{
 typedef int boolean;
 int true = 1, false = 0;
 
+boolean Array_delete(void** list, int size){
+    for (int i = 0; i < size; i++){
+        free(list[i]);
+    }
+    free(list);
+}
+
 Node* Node_new(Node* next, Node* prev, void* data){
     Node* node = malloc(sizeof(Node));
     node->next = next;
@@ -103,6 +110,7 @@ boolean ArrayList_print_ints(ArrayList* list){
             printf(", ");
         }
     }
+    free(array);
     printf("]\n");
     return true;
 }
@@ -116,6 +124,7 @@ boolean ArrayList_print_chars(ArrayList* list){
             printf(", ");
         }
     }
+    free(array);
     printf("]\n");
     return true;
 }
@@ -147,11 +156,32 @@ void** Array_int_to_ref(int* array, int size){
     return arr;
 }
 
+ArrayList* ArrayList_new_from_int_array(int* array, int size){
+    void** arr = Array_int_to_ref(array, size);
+    ArrayList* list = ArrayList_new_from_array(arr, size);
+    free(arr);
+    return list;
+}
+
+boolean ArrayList_delete(ArrayList* list){
+    Node* current = list->first;
+    while (current->next != NULL){
+        Node* temp = current->next;
+        free(current);
+        current = temp;
+    }
+    free(current);
+    free(list);
+    return true;
+}
+
+
+
 
 int main() {
 
     int nums[] = {1,2,3,4,5,6,7,8,9,10};
-    ArrayList* list = ArrayList_new_from_array(Array_int_to_ref(nums, 10), 10);
+    ArrayList* list = ArrayList_new_from_int_array(nums, 10);
     ArrayList_print_ints(list);
 
     int x = 12;
@@ -160,6 +190,8 @@ int main() {
     int t = 14;
     ArrayList_add_to_back(list, &t);
     ArrayList_print_ints(list);
+
+    ArrayList_delete(list);
 }
 
 
